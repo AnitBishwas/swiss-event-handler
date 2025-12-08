@@ -1,0 +1,25 @@
+name: CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Login Dockerhub
+        env:
+          DOCKERHUB_USERNAME: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_PASS: ${{secrets.DOCKER_PASS}}
+        run: docker login -u $DOCKERHUB_USERNAME -p $DOCKER_PASS
+      - name: Pull Docker Image
+        run: sudo docker pull anitbishwas/swiss-event-handler:latest
+      - name: Delete Old Docker Container
+        run: sudo docker rm -f swiss-event-handler || true
+      - name: Run Docker Container
+        run: |
+          sudo docker run --env-file ~/secrets/.env -d -p 8082:8082 --restart=always --name swiss-event-handler anitbishwas/swiss-event-handler

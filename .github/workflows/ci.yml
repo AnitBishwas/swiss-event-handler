@@ -1,0 +1,23 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Login Dockerhub
+        env:
+          DOCKERHUB_USERNAME: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_PASS: ${{secrets.DOCKER_PASS}}
+        run: docker login -u $DOCKERHUB_USERNAME -p $DOCKER_PASS
+      - name: Build the Docker image
+        run: docker build --build-arg SHOPIFY_API_KEY=${{ secrets.SHOPIFY_API_KEY }} --build-arg SHOPIFY_APP_URL=${{ secrets.SHOPIFY_APP_URL }} --build-arg VITE_SHOPIFY_API_KEY=${{ secrets.VITE_SHOPIFY_API_KEY}} -t anitbishwas/swiss-event-handler .
+      - name: Push to Dockerhub
+        run: docker push anitbishwas/swiss-event-handler:latest
