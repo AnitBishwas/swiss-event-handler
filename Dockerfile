@@ -21,7 +21,7 @@ RUN npm install && npm run build
 
 RUN ls -la
 # Expose backend port
-EXPOSE 8082
+EXPOSE 8080
 
 # Run backend server (adjust path if needed)
 CMD ["npm", "start"]
