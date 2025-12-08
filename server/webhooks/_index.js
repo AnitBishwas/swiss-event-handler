@@ -9,6 +9,9 @@
 
 import shopify from "../../utils/shopify.js";
 import appUninstallHandler from "./app_uninstalled.js";
+import orderFulfillmentHandler from "./order_fulfillment.js";
+import fulFillmentUpdateHandler from "./fulfillment_update.js";
+import orderCreateHandler from "./order_create.js";
 
 const webhookHandler = async (req, res) => {
   const topic = req.headers["x-shopify-topic"] || "";
@@ -32,6 +35,18 @@ const webhookHandler = async (req, res) => {
     switch (validateWebhook.topic) {
       case "APP_UNINSTALLED":
         await appUninstallHandler(topic, shop, req.body, webhookId, apiVersion);
+        break;
+      case "FULFILLMENTS_UPDATE":
+        await fulFillmentUpdateHandler(
+          topic,
+          shop,
+          req.body,
+          webhookId,
+          apiVersion
+        );
+        break;
+      case "ORDERS_CREATE":
+        await orderCreateHandler(topic, shop, req.body, webhookId, apiVersion);
         break;
       default:
         throw new Error(`Can't find a handler for ${validateWebhook.topic}`);

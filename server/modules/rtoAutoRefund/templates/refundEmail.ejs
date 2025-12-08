@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Refund Summary</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color:#f9f9f9; padding:20px;">
+  <h2>Refunds Summary</h2>
+  <p>Below is the list of customers and their refund details.</p>
+
+  <table width="100%" border="1" cellspacing="0" cellpadding="8" style="border-collapse:collapse; background:#fff;">
+    <thead style="background:#f2f2f2;">
+      <tr>
+        <th align="left">Order ID</th>
+        <th align="left">Name</th>
+        <th align="left">Customer</th>
+        <th align="left">Phone</th>
+        <th align="right">Refund Amount</th>
+        <th align="center">Partially Paid</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% customers.forEach(customer => { %>
+        <tr>
+          <td><%= customer.id %></td>
+          <td><%= customer.name %></td>
+          <td><%= customer.customer.name %></td>
+          <td><%= customer.customer.phone || '-' %></td>
+          <td align="right">₹<%= customer.refund_amount %></td>
+          <td align="center">
+            <% if (customer.partiallyPaid) { %>
+              <span style="color:#a65a00; font-weight:bold;">YES</span>
+            <% } else { %>
+              <span style="color:#0b66d1; font-weight:bold;">NO</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <p style="margin-top:20px;">Total Refund Amount: <strong>₹<%= totalRefund %></strong></p>
+
+  <p style="font-size:12px; color:#777;">This is an automated email. Please do not reply.</p>
+</body>
+</html>
