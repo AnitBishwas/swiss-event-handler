@@ -13,7 +13,6 @@ eventPublicRoutes.post("/", async (req, res) => {
       throw new Error("Payload can not be blank");
     }
     const formattedData = transformToBigQuerySchema(data);
-    console.log(formattedData);
     formattedData.session_id = data.session_id;
     await insertBigqueryEvent(formattedData);
     res

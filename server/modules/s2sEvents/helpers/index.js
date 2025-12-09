@@ -55,9 +55,7 @@ function transformToBigQuerySchema(rawEvent, options = {}) {
 const insertBigqueryEvent = async (data) => {
   const datasetId = process.env.DATASET_ID;
   const tableId = process.env.TABLE_ID;
-  console.log(process.env.CREDS);
   const credentials = JSON.parse(process.env.CREDS);
-  console.log(credentials);
   try {
     const rows = [data];
     const bigquery = new BigQuery({
