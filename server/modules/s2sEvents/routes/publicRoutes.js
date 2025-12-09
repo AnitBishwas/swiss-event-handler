@@ -9,6 +9,7 @@ const eventPublicRoutes = Router();
 eventPublicRoutes.post("/", async (req, res) => {
   try {
     const data = req.body;
+    console.log(data,'event data hererere')
     if (!data) {
       throw new Error("Payload can not be blank");
     }

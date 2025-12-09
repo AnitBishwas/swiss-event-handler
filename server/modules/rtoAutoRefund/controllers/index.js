@@ -208,8 +208,8 @@ const getOrderInfoFromShopify = async (orderName, shop) => {
       throw new Error(
         `Failed to get order detial from shopify reason ${orderName}`
       );
-    };
-    console.dir(data,{depth: null})
+    }
+    console.dir(data, { depth: null });
     let orders = data.orders.edges.map(({ node: el }) => ({
       id: el.id.replace("gid://shopify/Order/", ""),
       refund_amount: el.netPaymentSet.presentmentMoney.amount,
