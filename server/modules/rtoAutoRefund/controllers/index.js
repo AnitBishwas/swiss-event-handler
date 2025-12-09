@@ -13,7 +13,7 @@ const handleShiprocketRtoReport = async (data) => {
       throw new Error("Report file url missing");
     }
     let shop = (process.env.NODE_ENV = "dev"
-      ? "swiss-local-dev.myshopify.com"
+      ? "swiss-beauty-dev.myshopify.com"
       : "swiss-beauty-dev.myshopify.com");
     const reportUrl = data.report_file;
     const rtoOrders = [];
@@ -204,11 +204,12 @@ const getOrderInfoFromShopify = async (orderName, shop) => {
     }`;
     const { client } = await clientProvider.offline.graphqlClient({ shop });
     const { data, errors, extensions } = await client.request(query);
-    if (errors || errors.length > 0) {
+    if (errors && errors.length > 0) {
       throw new Error(
         `Failed to get order detial from shopify reason ${orderName}`
       );
-    }
+    };
+    console.dir(data,{depth: null})
     let orders = data.orders.edges.map(({ node: el }) => ({
       id: el.id.replace("gid://shopify/Order/", ""),
       refund_amount: el.netPaymentSet.presentmentMoney.amount,
