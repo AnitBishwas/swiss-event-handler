@@ -75,4 +75,3 @@ const insertBigqueryEvent = async (data) => {
 };
 
 export { transformToBigQuerySchema, insertBigqueryEvent };
-

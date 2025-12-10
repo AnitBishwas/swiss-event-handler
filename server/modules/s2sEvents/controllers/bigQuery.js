@@ -25,10 +25,12 @@ const createCustomPurchaseEventInBiqQuery = async (shop, payload) => {
           : 0,
         price: Number(variantAdditionalData.price),
         sku: variantAdditionalData.sku,
-        title: variant.title,
-        variant: variant.variant_title,
+        title: variantAdditionalData.product.title,
+        variant: variant.name,
         productId: variant.product_id,
+        currentInventory: variantAdditionalData.totalInventory,
       };
+      console.log(structurredVariantData);
       lineItemDetails.push(structurredVariantData);
     }
     let structuredData = {
@@ -102,6 +104,8 @@ const createCustomPurchaseEventInBiqQuery = async (shop, payload) => {
         sku: el.sku,
         title: el.title,
         productId: el.productId,
+        variant: el.variant,
+        currentInventory: el.currentInventory,
       })),
       event_date: new Date().toISOString(),
       timestamp: Date.now(),
@@ -130,9 +134,12 @@ const getProductVariantDataFromShopify = async (shop, variantId) => {
           id
           barcode
           compareAtPrice
-          displayName
+          product{
+            title
+          }
           price
           sku
+          totalInventory
         }
       }`;
       const { data, errors, extensions } = await client.request(query, {
