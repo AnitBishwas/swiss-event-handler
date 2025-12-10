@@ -26,7 +26,7 @@ const createCustomPurchaseEventInBiqQuery = async (shop, payload) => {
         price: Number(variantAdditionalData.price),
         sku: variantAdditionalData.sku,
         title: variantAdditionalData.product.title,
-        variant: variant.name,
+        variant: variant.variant_title,
         productId: variant.product_id,
         currentInventory: variantAdditionalData.inventoryQuantity,
       };
