@@ -28,7 +28,7 @@ const createCustomPurchaseEventInBiqQuery = async (shop, payload) => {
         title: variantAdditionalData.product.title,
         variant: variant.name,
         productId: variant.product_id,
-        currentInventory: variantAdditionalData.totalInventory,
+        currentInventory: variantAdditionalData.inventoryQuantity,
       };
       console.log(structurredVariantData);
       lineItemDetails.push(structurredVariantData);
@@ -139,7 +139,7 @@ const getProductVariantDataFromShopify = async (shop, variantId) => {
           }
           price
           sku
-          totalInventory
+          inventoryQuantity
         }
       }`;
       const { data, errors, extensions } = await client.request(query, {
