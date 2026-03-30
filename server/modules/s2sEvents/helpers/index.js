@@ -17,6 +17,7 @@ function transformToBigQuerySchema(rawEvent, options = {}) {
     "user_id",
     "device_id",
     "session_id",
+    "items"
   ]);
 
   function convertValue(value) {
@@ -49,6 +50,7 @@ function transformToBigQuerySchema(rawEvent, options = {}) {
     session_id: sessionId,
     event_params: eventParams,
     event_date,
+    items: rawEvent.items || []
   };
 }
 
